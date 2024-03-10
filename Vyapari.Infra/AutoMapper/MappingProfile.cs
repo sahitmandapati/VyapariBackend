@@ -7,7 +7,10 @@ namespace Vyapari.Infra
     {
         public MappingProfile()
         {
-            CreateMap<ProductRequest, Product>();
+            CreateMap<ProductRequestDto, Product>();
+            CreateMap<UserLoginDto, User>();
+            CreateMap<UserRegisterDto, User>();
+            CreateMap<User, UserDto>();
         }
     }
 }
