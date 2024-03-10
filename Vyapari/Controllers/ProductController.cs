@@ -60,7 +60,7 @@ namespace Vyapari.Controllers
 
         // POST: api/Product
         [HttpPost]
-        public async Task<IActionResult> PostProduct(ProductRequest productRequest)
+        public async Task<IActionResult> PostProduct(ProductRequestDto productRequest)
         {
             var product = _mapper.Map<Product>(productRequest);
 

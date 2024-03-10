@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vyapari.Data;
 
@@ -10,9 +11,10 @@ using Vyapari.Data;
 namespace Vyapari.Data.Migrations
 {
     [DbContext(typeof(VyapariDBContext))]
-    partial class VyapariDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240310093745_AddPasswordSaltToUsers")]
+    partial class AddPasswordSaltToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
