@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Vyapari.Data.DBO;
+using Vyapari.Data.Entities;
 
 namespace Vyapari.Data
 {
@@ -19,6 +19,8 @@ namespace Vyapari.Data
             modelBuilder.Entity<Product>().HasKey(p => p.ProductId);
             modelBuilder.Entity<User>().HasKey(u => u.UserId);
         }
+
+        
 
     }
 }
