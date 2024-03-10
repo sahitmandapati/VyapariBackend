@@ -11,12 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Vyapari.Data\Vyapari.Data.csproj" />
+    <ProjectReference Include="..\Vyapari.Services\Vyapari.Service.csproj" />
+    <ProjectReference Include="..\Vyapari.Infra\Vyapari.Infra.csproj" />
   </ItemGroup>
 
 </Project>

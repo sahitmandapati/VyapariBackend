@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Vyapari.Data;
+using Vyapari.Data.Repository;
+using Vyapari.Service;
+using Vyapari.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<VyapariDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
+
+builder.Services.AddAutoMapper(typeof(MappingProfile)); 
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 
 var app = builder.Build();

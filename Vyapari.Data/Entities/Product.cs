@@ -1,4 +1,4 @@
-﻿namespace Vyapari.Data.DBO
+﻿namespace Vyapari.Data.Entities
 {
     public class Product
     {

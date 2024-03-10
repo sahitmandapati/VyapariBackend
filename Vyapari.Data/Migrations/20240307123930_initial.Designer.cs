@@ -23,7 +23,7 @@ namespace Vyapari.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Vyapari.Data.DBO.Product", b =>
+            modelBuilder.Entity("Vyapari.Data.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace Vyapari.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Vyapari.Data.DBO.User", b =>
+            modelBuilder.Entity("Vyapari.Data.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
