@@ -42,23 +42,6 @@ namespace Vyapari.Controllers
             return Ok(product);
         }
 
-        // [HttpPost]
-        // public async Task<IActionResult> PostProduct(ProductRequest productRequest)
-        // {
-        //     var product = new Product
-        //     {
-        //         Name = productRequest.Name,
-        //         Description = productRequest.Description,
-        //         Price = productRequest.Price,
-        //         QuantityAvailable = productRequest.QuantityAvailable,
-        //         ImageUrl = productRequest.ImageUrl
-        //     };
-
-        //     await _productService.CreateProduct(product);
-
-        //     return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
-        // }
-
         // POST: api/Product
         [HttpPost]
         //[Authorize(Roles = "Admin")]

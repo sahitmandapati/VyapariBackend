@@ -57,39 +57,5 @@ namespace Vyapari
                 await context.Response.WriteAsync("Unauthorized access");
             }
         }
-
-        // public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
-        // {
-        //     using (var scope = serviceProvider.CreateScope())
-        //     {
-        //         var routeService = scope.ServiceProvider.GetRequiredService<IRouteService>();
-
-        //         var route = context.Request.Path.Value;
-        //         var user = context.Items["User"] as UserDto; // Assuming you have a User object in the context
-
-        //         if (route != null && routeService.IsWhiteListed(route))
-        //         {
-        //             await _next(context);
-        //         }
-        //         else if (routeService.IsBlackListed(route))
-        //         {
-        //             var blackListedRoute = await routeService.GetBlackListedRoute(route);
-        //             if (blackListedRoute.AllowedRoles != null && blackListedRoute.AllowedRoles.Any(role => role.Name == user.Role))
-        //             {
-        //                 await _next(context);
-        //             }
-        //             else
-        //             {
-        //                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
-        //                 await context.Response.WriteAsync("Access denied");
-        //             }
-        //         }
-        //         else
-        //         {
-        //             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        //             await context.Response.WriteAsync("Unauthorized access");
-        //         }
-        //     }
-        // }
     }
 }
