@@ -71,12 +71,6 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<IRouteService, RouteService>();
-builder.Services.AddScoped<IRouteRepository, RouteRepository>();
-
-builder.Services.AddScoped<IBlackListRouteRepository, BlackListRouteRepository>();
-builder.Services.AddScoped<IBlackListRouteService, BlackListRouteService>();
-
 
 var app = builder.Build();
 
