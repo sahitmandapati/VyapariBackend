@@ -11,8 +11,8 @@ using Vyapari.Data;
 namespace Vyapari.Data.Migrations
 {
     [DbContext(typeof(VyapariDBContext))]
-    [Migration("20240307123930_initial")]
-    partial class initial
+    [Migration("20240311142830_inital")]
+    partial class inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,6 +67,10 @@ namespace Vyapari.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

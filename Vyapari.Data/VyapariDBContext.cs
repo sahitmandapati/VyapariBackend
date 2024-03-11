@@ -18,9 +18,8 @@ namespace Vyapari.Data
 
             modelBuilder.Entity<Product>().HasKey(p => p.ProductId);
             modelBuilder.Entity<User>().HasKey(u => u.UserId);
-            modelBuilder.Entity<User>()
-                        .HasIndex(u => u.Email)
-                        .IsUnique();
+            
+
         }
 
 
