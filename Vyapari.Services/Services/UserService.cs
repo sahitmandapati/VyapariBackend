@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Vyapari.Data;
 using Vyapari.Data.Entities;
 using Vyapari.Infra;
@@ -10,10 +14,13 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
-    public UserService(IUserRepository userRepository, IMapper mapper)
+    private readonly IConfiguration _config;
+
+    public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration config)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _config = config;
     }
 
     public async Task<UserDto> AuthenticateAsync(string email, string password)
@@ -32,8 +39,9 @@ public class UserService : IUserService
             throw new ArgumentException("Password is incorrect.");
 
         // authentication successful
-         var userDto = _mapper.Map<UserDto>(user);
-         return userDto;
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Token = GenerateJwtToken(user);
+        return userDto;
     }
 
     public async Task<User> CreateAsync(User user, string password)
@@ -79,5 +87,26 @@ public class UserService : IUserService
         }
 
         return true;
+    }
+
+    private string GenerateJwtToken(User user)
+    {
+        var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+            new Claim("id", user.UserId.ToString()),
+            // Add more claims as needed
+        };
+
+        var token = new JwtSecurityToken(null,
+            null,
+            claims,
+            expires: DateTime.Now.AddMinutes(120),
+            signingCredentials: credentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
