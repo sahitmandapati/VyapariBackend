@@ -1,6 +1,5 @@
-﻿using Vyapari.Data;
+﻿using Microsoft.AspNetCore.Authorization;
 using Vyapari.Infra;
-using Vyapari.Service;
 
 namespace Vyapari
 {
@@ -13,49 +12,33 @@ namespace Vyapari
             _next = next;
         }
 
+
         public async Task InvokeAsync(HttpContext context)
         {
-            var route = context.Request.Path.Value;
-            var method = context.Request.Method;
-            var user = context.Items["User"] as UserDto; // Assuming you have a User object in the context
+            var endpoint = context.GetEndpoint();
 
-            var whiteListRoutes = new Dictionary<string, List<string>>
+            if (endpoint != null)
             {
-                { "/User/signin", new List<string> { "POST" } }, // Add your white-listed routes here
-                { "/User/register", new List<string> { "POST" } },
-                { "/api/Product", new List<string> { "GET" } },
-                { "/api/Product/*", new List<string> { "GET" } }
-            };
+                var authorizeAttribute = endpoint.Metadata.GetOrderedMetadata<AuthAttribute>().FirstOrDefault();
 
-            var blackListRoutes = new Dictionary<string, Dictionary<string, List<string>>>
-            {
-                { "/api/Product", new Dictionary<string, List<string>> { { "POST", new List<string> { "admin" } } } }, // Add your black-listed routes here
-                { "/api/Product/*", new Dictionary<string, List<string>> { { "POST", new List<string> { "admin" } } } }
-            };
-
-            if (route != null && whiteListRoutes.Any(wr => route.StartsWith(wr.Key) && wr.Value.Contains(method)))
-            {
-                await _next(context);
-            }
-            else if (blackListRoutes.Any(br => route.StartsWith(br.Key) && br.Value.ContainsKey(method)))
-            {
-                var allowedRolesForRouteAndMethod = blackListRoutes.First(br => route.StartsWith(br.Key) && br.Value.ContainsKey(method)).Value[method];
-
-                if (allowedRolesForRouteAndMethod.Contains(user.Role))
+                if (authorizeAttribute != null)
                 {
-                    await _next(context);
-                }
-                else
-                {
-                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                    await context.Response.WriteAsync("Access denied");
+                    var roles = authorizeAttribute.Roles;
+
+                    if (!string.IsNullOrEmpty(roles))
+                    {
+                        var user = context.Items["User"] as UserDto;
+
+                        if (user == null || !roles.Split(",").Any(r => user.Role.ToLower().Equals(r.ToLower())))
+                        {
+                            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                            return;
+                        }
+                    }
                 }
             }
-            else
-            {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync("Unauthorized access");
-            }
+
+            await _next(context);
         }
     }
 }
