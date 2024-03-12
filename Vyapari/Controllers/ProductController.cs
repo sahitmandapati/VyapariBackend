@@ -44,7 +44,7 @@ namespace Vyapari.Controllers
 
         // POST: api/Product
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [AuthAttribute(Roles = "admin")]
         public async Task<IActionResult> PostProduct(ProductRequestDto productRequest)
         {
             var product = _mapper.Map<Product>(productRequest);
@@ -56,7 +56,7 @@ namespace Vyapari.Controllers
 
         // PUT: api/Product/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [AuthAttribute(Roles = "admin")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
             if (id != product.ProductId)
@@ -71,7 +71,7 @@ namespace Vyapari.Controllers
 
         // DELETE: api/Product/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [AuthAttribute(Roles = "admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _productService.DeleteProduct(id);
