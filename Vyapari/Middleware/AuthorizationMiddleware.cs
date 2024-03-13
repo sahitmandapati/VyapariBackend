@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Vyapari.Infra;
+﻿using Vyapari.Infra;
 
 namespace Vyapari
 {
