@@ -3,8 +3,6 @@ using Vyapari.Data;
 using Vyapari.Data.Repository;
 using Vyapari.Service;
 using Vyapari.Infra;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Vyapari;
 
@@ -48,20 +46,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<VyapariDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-});
 
 builder.Services.AddAutoMapper(typeof(MappingProfile)); 
 
@@ -86,8 +70,8 @@ app.UseMiddleware<AuthorizationMiddleware>();
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
-// app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 
